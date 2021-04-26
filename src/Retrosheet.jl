@@ -7,6 +7,7 @@ export Chadwick
 
 include("Play.jl")
 include("Chadwick.jl")
+include("GameInfo.jl")
 include("GamePlay.jl")
 include("ScheduledGame.jl")
 
