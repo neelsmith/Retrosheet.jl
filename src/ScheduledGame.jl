@@ -5,8 +5,8 @@ struct ScheduledGame
     visitingteamcode
     visitorsleaguecode
     visitorsgamenum
-    hometeam
-    homeleague
+    hometeamcode
+    homeleaguecode
     homegamenum
     gametimecode
     postponedcancelled
