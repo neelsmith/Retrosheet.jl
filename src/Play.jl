@@ -1,3 +1,7 @@
+"""Record for a single event in a game record.
+
+$(SIGNATURES)
+"""
 struct Play
     inning::Int64
     team::Int64 # home or visitor
@@ -8,7 +12,9 @@ struct Play
 end
 
 
-"""Construct `Play` from delimited-text string.
+"""Construct a `Play` from a delimited-text string.
+
+$(SIGNATURES)
 """
 function play(delimited::AbstractString)
     fields = split(delimited, ",")
