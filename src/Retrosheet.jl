@@ -1,6 +1,7 @@
 module Retrosheet
 
 using Documenter, DocStringExtensions
+using Dates
 
 export Play
 export Chadwick

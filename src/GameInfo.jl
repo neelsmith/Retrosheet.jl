@@ -1,7 +1,7 @@
 
 """Standard information recorded about a game.
 
-$(SIGNATURE)
+$(SIGNATURES)
 """
 struct GameInfo
     infotype
