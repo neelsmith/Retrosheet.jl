@@ -7,3 +7,10 @@ const FIRST_GAME = 1
 const SECOND_GAME = 2
 
 const CHADWICK_RAW = "https://raw.githubusercontent.com/chadwickbureau/retrosheet/master/"
+
+# In addition to standard 9 positions:
+const DH = 10
+
+# Used in `sub` records:
+const PINCH_HITTER = 11
+const PINCH_RUNNER = 12
