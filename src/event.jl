@@ -13,11 +13,15 @@ function labelplay(play::AbstractString)
 end
 
 function labelhit(s)
-    s
+    hitre = r"^([DSTHR]+)(.*)"  
+    matchedup = collect(eachmatch(hitre, s))
+    hit = matchedup[1].captures[1]
+
+    string(hitlabels[hit])
 end
 
 function labelout(s)
-    s
+    string("OUT! ", s)
 end
 
 function labelbasic(s::AbstractString)
