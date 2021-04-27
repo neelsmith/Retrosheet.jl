@@ -2,9 +2,11 @@ module Retrosheet
 
 using Documenter, DocStringExtensions
 using Dates
+using HTTP
 
 export Play
 export Chadwick
+export schedule
 
 include("Play.jl")
 include("Chadwick.jl")
