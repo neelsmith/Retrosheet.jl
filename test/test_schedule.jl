@@ -5,7 +5,7 @@
 """
     game = Retrosheet.scheduledgame(csv)
     @test game.visitingteamcode == "TEX"
-    @test game.hometeam == "DET"
+    @test game.hometeamcode == "DET"
     @test Dates.monthname(game.gamedate) == "April"
     @test Dates.dayname(game.gamedate) == "Sunday"
 end
