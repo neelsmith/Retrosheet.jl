@@ -3,7 +3,7 @@
 
 $(SIGNATURES)
 """
-struct GameState
+mutable struct GameState
     scorehome::Int64
     scorevisitor::Int64
     inning::Int64

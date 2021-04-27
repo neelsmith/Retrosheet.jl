@@ -1,4 +1,6 @@
 
+"""A single scheduled game.  It might or might not have been played.
+"""
 struct ScheduledGame
     gamedate::Date
     gamenum::Int64
@@ -46,4 +48,14 @@ function scheduledgame(delimited::AbstractString)
     laterplay, makeup
     )
 
+end
+
+# MODEL:
+# BOS197904050
+"""Given a `ScheduledGame, compose game ID usable in looking up record of played game.
+
+$(SIGNATURES)
+"""
+function gameid(sg::ScheduledGame)
+    string(sg.hometeamcode, Dates.format(sg.gamedate,"yyyymmdd"), sg.gamenum)
 end

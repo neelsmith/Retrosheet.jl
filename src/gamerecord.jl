@@ -1,8 +1,9 @@
 
 # For now, regular season only.
+# MODEL:
+# BOS197904050
 function gamerecord(gameid::AbstractString)
   
-
     # Need to know league.
     # But MIL and HOU have changed leagues so can't map directly.
     teamcode = gameid[1:3]
