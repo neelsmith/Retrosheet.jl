@@ -22,93 +22,102 @@ begin
 	using Markdown
 end
 
-# ╔═╡ 96bb6967-ca2f-43ca-b902-31452930a7af
-@bind update Button("Change inning")
+# ╔═╡ 67e3a9ec-fbc2-47cb-ad97-7e156b3bf0d3
+md"""># Regular-season replay
+>
+> - Click the *Advance* button to step through the Retrosheet record of a regular-season MLB game play by play.
+> - Check *backward* and click *Rewind* if you want to step backward from the current point in the game.
 
-# ╔═╡ 6fd5a62f-2d08-4adc-83a7-079ae9602570
-md"""$(@bind hscore Button("Home scores"))  $(@bind vscore Button("Visitor scores"))
+*backward* $(@bind backward CheckBox())
+
+---
+
 """
 
-# ╔═╡ 43ae47d0-e514-45d5-9c6d-1e4f43107d60
-@bind subbatter Button("Substitute")
+# ╔═╡ 2caf7e0f-587b-45ba-a0ea-d4f7a091d243
+if backward
+	md"""## *Rewind* 1 play $(@bind update Button("Rewind"))"""
+else
+	md"""## *Advance* 1 play $(@bind update Button("Advance"))"""
+end
+
+# ╔═╡ 7d7d7c0a-061f-466e-94f4-46e9143cf3c8
+md"""
+---
+
+Game data. In reality would be loaded over internet.
+"""
+
+# ╔═╡ 5adedc9b-9729-4d7c-87c3-eb47e7c26841
+playevents = [
+	"out",
+	"single",
+	"strikeout",
+	"walk",
+	"stolen base",
+	"pop fly",
+	"double",
+	"single scoring runner from second",
+	"walk",
+	"np: substition",
+	"strikeout",
+	"463 double play"
+	]
 
 # ╔═╡ 7806137e-517d-494d-a11c-86fe958e581c
 md"""
 ---
 
-Initialize a game
+Game counter.  You can ignore this.
+
 """
 
 # ╔═╡ 637d1719-9ace-4ee2-b0e7-1177e942cf3c
-innings = []
+eventindex = []
 
 # ╔═╡ 8f442fde-46b0-4a2a-a273-e3648ab6c8ef
-playedinnings = begin
+counter = begin
+
 	update
-	push!(innings, length(innings) + 1)
+	if backward		
+		if isempty(eventindex)
+		else
+			pop!(eventindex)
+		end
+	else
+		if length(eventindex) < length(playevents)
+			push!(eventindex, length(eventindex) + 1)
+		end
+	end
 end
 
-# ╔═╡ 4299cb44-237c-4aaa-b39c-1330cb8c8dc2
-homescore = []
-
-# ╔═╡ 0e2bfb94-cd11-44f1-9a53-1b3e9958b411
-hometeamscore = begin
-	hscore
-	push!(homescore, 1)
-end
-
-
-# ╔═╡ 9784fbbb-afa9-4810-81af-554bd5f768be
-visitorscore = []
-
-# ╔═╡ 0e6a0b18-19bd-4a4d-abb5-40a5c85eea2e
-vistingteamscore = begin
-	vscore
-	push!(visitorscore, 1)
-end
-
-
-# ╔═╡ ad57d86e-0ae0-41d9-b4aa-4b4e788e1bfc
-md"""## Inning: $(playedinnings[end])
-
-
-### Home: **$(sum(hometeamscore))**  Visitor: **$(sum(vistingteamscore))**
-"""
-
-
-
-# ╔═╡ 7c60b7c0-8a98-41fb-bd1a-53e7845948f1
-homelineup = [
-	"a",
-	"b",
-	"c"
-	]
-
-# ╔═╡ 4ccd799d-aaa0-4cb6-b594-e6616745ffdb
+# ╔═╡ 637c7f52-195e-4026-8845-cc1e3a56f180
 begin
-	items = map(pl -> "1. " * pl, homelineup)
-	Markdown.parse("Home lineup:\n\n" * join(items, "\n"))
-end
+	if isnothing(counter)
+		md"Game has not begun."
 
-# ╔═╡ 0fd3bab3-6f26-4b5e-8c20-cbd4c7167494
-begin
-	subbatter
-	push!(homelineup, "SUB")
+	else
+		lastidx = counter[end]
+
+
+		if lastidx > length(playevents)
+			md"Game over."
+		else
+
+		md"""
+		Current play:  $(playevents[lastidx])
+		"""
+		end
+	end
 end
 
 # ╔═╡ Cell order:
 # ╟─f8321024-a80b-11eb-1a2e-55f03724ef5c
-# ╟─96bb6967-ca2f-43ca-b902-31452930a7af
-# ╟─6fd5a62f-2d08-4adc-83a7-079ae9602570
-# ╟─43ae47d0-e514-45d5-9c6d-1e4f43107d60
-# ╠═4ccd799d-aaa0-4cb6-b594-e6616745ffdb
-# ╠═0fd3bab3-6f26-4b5e-8c20-cbd4c7167494
-# ╟─ad57d86e-0ae0-41d9-b4aa-4b4e788e1bfc
+# ╟─67e3a9ec-fbc2-47cb-ad97-7e156b3bf0d3
+# ╟─2caf7e0f-587b-45ba-a0ea-d4f7a091d243
+# ╟─637c7f52-195e-4026-8845-cc1e3a56f180
+# ╟─7d7d7c0a-061f-466e-94f4-46e9143cf3c8
+# ╟─5adedc9b-9729-4d7c-87c3-eb47e7c26841
 # ╟─7806137e-517d-494d-a11c-86fe958e581c
-# ╟─8f442fde-46b0-4a2a-a273-e3648ab6c8ef
-# ╟─0e2bfb94-cd11-44f1-9a53-1b3e9958b411
-# ╟─0e6a0b18-19bd-4a4d-abb5-40a5c85eea2e
-# ╟─637d1719-9ace-4ee2-b0e7-1177e942cf3c
-# ╟─4299cb44-237c-4aaa-b39c-1330cb8c8dc2
-# ╠═9784fbbb-afa9-4810-81af-554bd5f768be
-# ╟─7c60b7c0-8a98-41fb-bd1a-53e7845948f1
+# ╠═8f442fde-46b0-4a2a-a273-e3648ab6c8ef
+# ╠═637d1719-9ace-4ee2-b0e7-1177e942cf3c
