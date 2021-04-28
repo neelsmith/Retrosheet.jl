@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.2
+# v0.14.4
 
 using Markdown
 using InteractiveUtils
@@ -23,10 +23,10 @@ begin
 end
 
 # ╔═╡ 43958d9a-50b3-4c43-b097-d629fcdc5cf9
-@bind secret_poem DateField(Date(2020, 8,15))
+@bind gameday DateField(Date(2020, 8,15))
 
 # ╔═╡ 87aee3ec-47b4-48ed-bf4d-5a669311cc16
-typeof(secret_poem)
+Date(gameday)
 
 # ╔═╡ Cell order:
 # ╠═899dba88-a6c7-11eb-02f4-fb9b5ec213c8
