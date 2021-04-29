@@ -7,11 +7,11 @@ using HTTP
 export PlayEvent, ScheduledGame
 export GameState
 export season, gameid
-export gamerecord
+export gamerecord, plays
 export labelplay
 
 
-include("Play.jl")
+include("PlayEvent.jl")
 include("event.jl")
 include("Chadwick.jl")
 include("GameInfo.jl")

@@ -1,22 +1,4 @@
-"""Retrosheet model of a single play ("event")."""
-#=
-struct PlayEvent
-    inning::Int64
-    homevisitor::Int64
-    atbat::AbstractString
-    pitchcount
-    pitchsequence
-    eventstring::AbstractString
-end
 
-
-inning::Int64
-team::Int64 # home or visitor
-player::AbstractString
-balls_strikes
-pitches
-play
-=#
 """Parse Retrosheet project event string into `PlayEvent`.
 
 $(SIGNATURES)

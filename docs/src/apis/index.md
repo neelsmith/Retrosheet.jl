@@ -4,7 +4,7 @@
 ## Basic structures
 ```@docs
 ScheduledGame
-Play
+PlayEvent
 ```
 
 

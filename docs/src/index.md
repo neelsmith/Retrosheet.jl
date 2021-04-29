@@ -42,4 +42,7 @@ Retrieve raw Retrosheet project data:
 raw = game10id |> gamerecord
 ```
 
+```@example eg
+allevents = raw  |> plays
+```
 

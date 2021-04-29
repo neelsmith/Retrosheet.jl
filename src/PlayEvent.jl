@@ -30,3 +30,17 @@ function play(delimited::AbstractString)
     bscount, pitches,
     event)    
 end
+
+function playorsub(s::AbstractString)
+    if startswith(s, "sub,")
+        # Implement later
+        nothing
+    else
+        play(s)
+    end
+end
+
+function plays(lines::Vector)
+    filtered = filter(pl -> startswith(pl, "sub,") || startswith(pl, "play,"), lines)
+    map(row -> playorsub(row), filtered)
+end
