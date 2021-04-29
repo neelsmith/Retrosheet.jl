@@ -2,7 +2,7 @@
 
 $(SIGNATURES)
 """
-struct Play
+struct PlayEvent
     inning::Int64
     team::Int64 # home or visitor
     player::AbstractString
@@ -26,7 +26,7 @@ function play(delimited::AbstractString)
     pitches = ""
     isempty(fields[6]) ? pitches = nothing : pitches = fields[6]
     event =  fields[7]
-    Play(inning, team, player,
+    PlayEvent(inning, team, player,
     bscount, pitches,
     event)    
 end
