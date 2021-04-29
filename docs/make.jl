@@ -13,6 +13,10 @@ makedocs(
     sitename = "Retrosheet.jl",
     pages = [
         "Home" => "index.md",
+        "Guide" => Any[
+            "Overview" => "guide/intro.md",
+            "Replay a historical game" => "guide/play.md",
+        ],
         "API documentation" => "apis/index.md"
     ]
 )
