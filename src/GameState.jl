@@ -1,7 +1,18 @@
 
-"""Variables maintaing state of a game in play.
+"""Variables maintaining state of a game in play.
 
 $(SIGNATURES)
+
+# Members
+
+- `scorehome` Home team's score
+- `scorevisitor` Visting team's score
+- `inning` Current inning
+- `outs` Number of outs
+- `runner1` Player ID of runner on first, or `nothing`
+- `runner2` Player ID of runner on second, or `nothing`
+- `runner3` Player ID of runner on third, or `nothing`
+- `lastplay` Text description of most recent play
 """
 mutable struct GameState
     scorehome::Int64

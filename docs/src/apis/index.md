@@ -1,11 +1,28 @@
 # API documentation
 
+
+## Basic structures
 ```@docs
-Chadwick
+ScheduledGame
 Play
 ```
 
 
+## Loading data
+
+Retrosheet.jl can load data from the chadwickbureau github repository at [https://github.com/chadwickbureau/retrosheet](https://github.com/chadwickbureau/retrosheet).
+
 ```@docs
-Retrosheet.schedule
+season
+gameid
+gamerecord
+```
+
+
+
+
+## Replaying games
+
+```@docs
+GameState
 ```

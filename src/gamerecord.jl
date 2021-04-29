@@ -17,6 +17,10 @@ end
 # For now, regular season only.
 # MODEL:
 # BOS197904050
+"""Retrieve raw string data from retrosheet repository for a single game.
+
+$(SIGNATURES)
+"""
 function gamerecord(gameid::AbstractString)
   
     # Need to know league.
