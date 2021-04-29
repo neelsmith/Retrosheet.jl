@@ -1,4 +1,19 @@
 
+function suborevent(playstr::AbstractString)
+    if startswith(playstr, "sub")
+        # implement later
+        nothing
+    else
+        play(playstr)
+    end
+end
+
+function gameevents(records::Vector)
+    length(records)
+    plays = filter(r -> startswith(r, "play,") || startswith(r, "sub"), records)
+    map(pl -> suborevent(pl), plays)
+end
+
 # For now, regular season only.
 # MODEL:
 # BOS197904050

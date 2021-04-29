@@ -13,3 +13,21 @@ mutable struct GameState
     runner3
     lastplay::AbstractString
 end
+
+
+"""Initiate a `GameState`.
+
+$(SIGNATURES)
+"""
+function newgamestate()
+    GameState(0,0,1,0,nothing, nothing, nothing, "Game ready to begin.")
+end
+
+"""Update state of game to account for `play`.
+
+$(SIGNATURES)
+"""
+function updatestate(gamestate::GameState, play::PlayEvent)
+    #Play(8, 0, "philt001", "22", "CBBFX", "S8/L6M.1-2")
+    gamestate.inning =  play.inning
+end

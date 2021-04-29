@@ -10,6 +10,7 @@ export Chadwick
 export season
 export labelplay
 
+include("event.jl")
 include("Play.jl")
 include("Chadwick.jl")
 include("GameInfo.jl")
@@ -19,7 +20,7 @@ include("ScheduledGame.jl")
 include("LineupPlayer.jl")
 
 
-include("event.jl")
+
 include("season.jl")
 include("gamerecord.jl")
 include("leagues.jl")
