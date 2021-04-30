@@ -1,10 +1,9 @@
 # User's guide
 
+The first two structures I've implemented are:
 
-
-The `ScheduledGame` is the listing for a game in the official schedule for a season: games may or may not have been played (e.g., due to rainout).
-
-For games that *were* played, Retrosheet.jl can use the game's unique identifier to retrieve the play-by-play record of events and parse those into `PlayEvent` objects.
+1. `ScheduledGame`. This is the listing for a game in the official schedule for a season: games may or may not have been played (e.g., due to rainout).
+2. The `PlayEvent`.  For games that *were* played, Retrosheet.jl can use the game's unique identifier to retrieve the play-by-play record of events and parse those into `PlayEvent` objects.
 
 ### Load data
 
