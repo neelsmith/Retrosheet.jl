@@ -42,7 +42,7 @@ function gamerecord(gameid::AbstractString)
         # then within file
         # gamedate and optional number
         r = HTTP.request("GET", url)
-        blocks = split(String(r.body), r"\r\nid,")
+        blocks = split(String(r.body), r"id,")
         blocklines = map(b -> split(b,"\r\n"), blocks)
         matches = filter(v -> v[1] == gameid, blocklines)
         if isempty(matches)
