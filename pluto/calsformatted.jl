@@ -31,5 +31,5 @@ html"""
 """
 
 # ╔═╡ Cell order:
-# ╟─ecb4a574-aa52-11eb-0590-bf7ff8cb2f92
-# ╟─9cdd0231-61ed-4b2f-b1de-115e4f50e5e3
+# ╠═ecb4a574-aa52-11eb-0590-bf7ff8cb2f92
+# ╠═9cdd0231-61ed-4b2f-b1de-115e4f50e5e3
