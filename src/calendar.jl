@@ -1,9 +1,10 @@
 
-"""Format markdown table with calendar for month of given date.
+"""Format markdown table with calendar for one month of a given team's schedule.
 
 $(SIGNATURES)
 """
-function mdcal(d::Date)    
+function mdcal(d::Date, teamcode::AbstractString)    
+    sched = season(year(d), teamcode) 
     lines = [
         "| Mon | Tue | Wed | Thu | Fri | Sat | Sun |",
         "| --- | --- | --- | --- | --- | --- | --- |"
@@ -18,8 +19,20 @@ function mdcal(d::Date)
 
     for i in 1:totaldays
         #println("Add ", i)
-        calstr = string(calstr, i , " | ")
+        
         dt = Date(year(d), month(d), i)
+        matches = filter(g -> g.gamedate == dt, sched)        
+
+        if isempty(matches)
+            calstr = string(calstr, i , " | ")
+        else
+            game = matches[1]
+            if game.hometeamcode == teamcode
+                calstr = string(calstr, "**", i, "**<br/>**",  game.visitingteamcode  , "** | ")
+            else
+                calstr = string(calstr, "*", i, "*<br/>*@",  game.hometeamcode  , "* | ")
+            end
+        end
 
         if mod(dayofweek(dt),7) == 0
             calstr = calstr * "\n| "
@@ -30,10 +43,14 @@ end
 
 
 
+"""Format html table with calendar for one month of a given team's schedule.
 
-function htmlcal(d::Date)    
+$(SIGNATURES)
+"""
+function htmlcal(d::Date, teamcode::AbstractString) 
+    sched = season(year(d), teamcode)    
     lines = [
-        "<tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun </tr>"        
+        "<table><tr><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th><th>Sun </tr>"        
     ]
     
 
@@ -41,16 +58,25 @@ function htmlcal(d::Date)
     totaldays = lastdayofmonth(d) |> day
 
     padnum = dayofweek(firstofmonth) - 1
-    calstr = "<tr>" * repeat(" </tr><tr>", padnum)
+    calstr = "<tr>" * repeat("<td> </td>", padnum)
 
     for i in 1:totaldays
-        #println("Add ", i)
-        calstr = string(calstr, i , "</td><td>")
         dt = Date(year(d), month(d), i)
+        matches = filter(g -> g.gamedate == dt, sched)        
+        if isempty(matches)
+            calstr = string(calstr, "<td>", i , "</td>")
+        else
+            game = matches[1]
+            if game.hometeamcode == teamcode
+                calstr = string(calstr, "<td class='home'>", i , "<br/>", game.visitingteamcode, "</td>")
+            else
+                calstr = string(calstr, "<td class='away'>", i ,"<br/>@", game.hometeamcode, "</td>")
+            end 
+        end
 
         if mod(dayofweek(dt),7) == 0
             calstr = calstr * "</tr><tr>"
         end
     end
-    join(lines,"\n") * "\n" * calstr * "</tr>"
+    join(lines,"\n")  * calstr * "</tr></table>"
 end
