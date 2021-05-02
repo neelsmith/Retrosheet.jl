@@ -31,6 +31,11 @@ function play(delimited::AbstractString)
     event)    
 end
 
+
+"""Process balls in play or substitions differently.
+
+$(SIGNATURES)
+"""
 function playorsub(s::AbstractString)
     if startswith(s, "sub,")
         # Implement later
@@ -39,7 +44,25 @@ function playorsub(s::AbstractString)
         play(s)
     end
 end
+"""Count number of runs scored on a play.
 
+$(SIGNATURES)
+"""
+function scores(playevt::PlayEvent)
+    parts = split(playevt.play, ".")
+    if length(parts) > 1
+        scores = replace( parts[2], r"[^H]" => "")
+        length(scores)
+    else
+        0
+    end
+end
+
+
+"""Extract play-by-play events from the record of a played game.
+
+$(SIGNATURES)
+"""
 function plays(lines::Vector)
     filtered = filter(pl -> startswith(pl, "sub,") || startswith(pl, "play,"), lines)
     map(row -> playorsub(row), filtered)

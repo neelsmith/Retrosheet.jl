@@ -19,7 +19,7 @@ end
 @testset "Test extracting lineups from record" begin
     sched60sox = season(1960, "BOS")
     game1record = sched60sox[1] |> gameid |> gamerecord
-    players = lineup(game1record)
+    players = Retrosheet.lineup(game1record)
     @test length(players) == 18
     @test players[1].player == "Pumpsie Green"
 end

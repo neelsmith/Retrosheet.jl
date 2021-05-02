@@ -4,7 +4,10 @@
 ## Basic structures
 ```@docs
 ScheduledGame
+GameInfo
+LineupPlayer
 PlayEvent
+GameState
 ```
 
 
@@ -16,6 +19,10 @@ Retrosheet.jl can load data from the chadwickbureau github repository at [https:
 season
 gameid
 gamerecord
+gameinfo
+homelineup
+visitorlineup
+plays
 ```
 
 
@@ -24,5 +31,5 @@ gamerecord
 ## Replaying games
 
 ```@docs
-GameState
+gamestate
 ```

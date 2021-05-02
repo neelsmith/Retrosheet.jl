@@ -5,10 +5,17 @@ using Dates
 using HTTP
 
 export ScheduledGame
-export GameState, GameInfo, PlayEvent
 export season, gameid
-export gamerecord, gameinfo, lineup, plays
+
+export GameInfo, LineupPlayer
+export gamerecord, gameinfo, homelineup, visitorlineup, plays
 export labelplay
+
+export PlayEvent
+export scores
+
+export GameState
+export gamestate
 
 
 include("PlayEvent.jl")

@@ -16,7 +16,7 @@ end
 # ╔═╡ f8321024-a80b-11eb-1a2e-55f03724ef5c
 begin
 	using Pkg
-	Pkg.add(url="https://github.com/neelsmith/retrosheet.jl", rev="e6f6be06ef29194b409a788425d03fa6d2c678cc")
+	Pkg.add(url="https://github.com/neelsmith/retrosheet.jl", rev="f22a7c6b77bdf76bbbe387cb7e6ca9bf340221e4")
 
 	Pkg.add("PlutoUI")
 	Pkg.add("Markdown")
@@ -430,7 +430,7 @@ pluto-output blockquote span.away {
 # ╠═f328b2cb-ee15-4c25-863b-2a1c11012c0b
 # ╟─85a6696b-a41f-47b4-99dd-d5aa558f832a
 # ╟─666a429c-86db-4505-92e0-e04ef296c814
-# ╠═32e4170e-512e-44c9-ace0-5c7126992bff
+# ╟─32e4170e-512e-44c9-ace0-5c7126992bff
 # ╟─a8093195-6361-41f3-827f-b2051f3f1ba9
 # ╟─265ce09e-6fd3-418a-acc7-c6bd5631669e
 # ╟─69bfde19-3c66-4410-9864-d747829b5299

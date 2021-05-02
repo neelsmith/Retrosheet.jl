@@ -15,6 +15,8 @@ $(SIGNATURES)
 - `lastplay` Text description of most recent play
 """
 mutable struct GameState
+    homelineup
+    visitorlineup
     scorehome::Int64
     scorevisitor::Int64
     inning::Int64
@@ -26,12 +28,18 @@ mutable struct GameState
 end
 
 
-"""Initiate a `GameState`.
+
+
+"""Instantiate a `GameState` from the retrosheet record for a played game.
 
 $(SIGNATURES)
 """
-function newgamestate()
-    GameState(0,0,1,0,nothing, nothing, nothing, "Game ready to begin.")
+function gamestate(gamerecord)
+    GameState(
+        homelineup(gamerecord),
+        visitorlineup(gamerecord),
+        0,0,1,0,nothing, nothing, nothing, 
+        "Game ready to begin.")
 end
 
 """Update state of game to account for `play`.
@@ -41,4 +49,10 @@ $(SIGNATURES)
 function updatestate(gamestate::GameState, play::PlayEvent)
     #Play(8, 0, "philt001", "22", "CBBFX", "S8/L6M.1-2")
     gamestate.inning =  play.inning
+    # check batter
+    # check outs
+    # check scores
+    # check runners
+    # check play description
+    gamestate
 end
