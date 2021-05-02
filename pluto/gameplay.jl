@@ -49,6 +49,9 @@ md"""
 Data to bury at bottom of nb.
 """
 
+# ╔═╡ ce5a94e7-d284-483c-90ea-afe45ec62a08
+md"Limit possible dates"
+
 # ╔═╡ 8ac6c8e2-ee33-4c4e-bfd3-935063951682
 # Currently covered years
 yearsincluded =[ "2019",
@@ -205,6 +208,7 @@ md"""Team: $(@bind fanteam Select([
 """
 
 # ╔═╡ 8466c4fa-9568-4050-a9c2-5b964b5bc316
+# Date object for first month of season user has chosen
 defaultgame = begin
 	Date(parse(Int64,fanyear), 4, 1)
 end
@@ -216,7 +220,6 @@ end
 
 # ╔═╡ 69bfde19-3c66-4410-9864-d747829b5299
 # Users-selected game day as a Date object
-#dt = Date(gameday)
 gamedate = Date(gameday)
 
 # ╔═╡ a30cb2e4-7da0-4c62-b380-a9ca04fa77a6
@@ -234,19 +237,29 @@ schedule = begin
 end
 
 
-# ╔═╡ 666a429c-86db-4505-92e0-e04ef296c814
-playaction = begin 
-	 matches = filter(g -> g.gamedate == gamedate, schedule)
+# ╔═╡ 265ce09e-6fd3-418a-acc7-c6bd5631669e
+selectedgame = begin
+	matches = filter(g -> g.gamedate == gamedate, schedule)
 	if isempty(matches) 
-		[]
+		nothing
 	else
-		matches[1] |> gameid |> gamerecord |> plays
+		matches[1]
 	end
 end
 
+# ╔═╡ a8093195-6361-41f3-827f-b2051f3f1ba9
+gamercrd = isnothing(selectedgame) ? nothing : selectedgame |> gameid |> gamerecord
+
+
+
+# ╔═╡ 666a429c-86db-4505-92e0-e04ef296c814
+playaction = isnothing(gamercrd) ? nothing : gamercrd |> plays
+
+
 # ╔═╡ a59e92c8-c7ab-4c70-b8b7-b82e8e9adc15
 begin
-	if isempty(playaction)
+	if isnothing(playaction)
+
 		md"No game played on $(gamedate)"
 	else
 		md"Game on $(gamedate) had $(length(playaction)) plays."
@@ -391,9 +404,12 @@ pluto-output blockquote span.away {
 # ╟─a59e92c8-c7ab-4c70-b8b7-b82e8e9adc15
 # ╟─85a6696b-a41f-47b4-99dd-d5aa558f832a
 # ╟─666a429c-86db-4505-92e0-e04ef296c814
+# ╟─a8093195-6361-41f3-827f-b2051f3f1ba9
+# ╟─265ce09e-6fd3-418a-acc7-c6bd5631669e
 # ╟─69bfde19-3c66-4410-9864-d747829b5299
 # ╟─8466c4fa-9568-4050-a9c2-5b964b5bc316
 # ╟─9aedaa02-f753-4e28-ba2f-bf5457328888
+# ╟─ce5a94e7-d284-483c-90ea-afe45ec62a08
 # ╟─8ac6c8e2-ee33-4c4e-bfd3-935063951682
 # ╟─67e3a9ec-fbc2-47cb-ad97-7e156b3bf0d3
 # ╟─2caf7e0f-587b-45ba-a0ea-d4f7a091d243
