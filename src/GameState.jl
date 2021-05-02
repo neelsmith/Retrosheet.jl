@@ -21,6 +21,7 @@ mutable struct GameState
     scorevisitor::Int64
     inning::Int64
     outs::Int64
+    batter
     runner1
     runner2
     runner3
@@ -35,10 +36,13 @@ end
 $(SIGNATURES)
 """
 function gamestate(gamerecord)
+    allbatters = lineup(gamerecord)
     GameState(
         homelineup(gamerecord),
         visitorlineup(gamerecord),
-        0,0,1,0,nothing, nothing, nothing, 
+        0,0,1,0,
+        allbatters[1].id,
+        nothing, nothing, nothing, 
         "Game ready to begin.")
 end
 
@@ -47,12 +51,25 @@ end
 $(SIGNATURES)
 """
 function updatestate(gamestate::GameState, play::PlayEvent)
-    #Play(8, 0, "philt001", "22", "CBBFX", "S8/L6M.1-2")
-    gamestate.inning =  play.inning
-    # check batter
-    # check outs
-    # check scores
-    # check runners
-    # check play description
-    gamestate
+    if isnothing(play)
+        gamestate
+    else
+        #Play(8, 0, "philt001", "22", "CBBFX", "S8/L6M.1-2")
+        gamestate.inning =  play.inning
+        # check scores
+        if play.team == Retrosheet.HOME
+            gamestate.scorehome += scores(play)
+        else
+            gamestate.scorevisitor += scores(play)
+        end
+        # check batter
+        gamestate.batter = play.player
+
+        # check outs
+        println("OUTS: ", play.play, "->" , outs(play))
+        # check runners
+        # check play description
+        gamestate
+    end
+    
 end

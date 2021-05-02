@@ -84,3 +84,14 @@ function labelbasic(s::AbstractString)
     end
 end
 
+"""Compute number of outs in a play.
+
+$(SIGNATURES)
+"""
+function outs(plevt::PlayEvent)
+    if occursin(plevt.play[1], "SDTHNW")
+        0
+    else
+        println(plevt.play)
+    end
+end
