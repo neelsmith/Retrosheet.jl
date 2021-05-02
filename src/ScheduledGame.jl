@@ -35,17 +35,20 @@ function scheduledgame(delimited::AbstractString)
 
     gametime = replace(cols[10], "\"" => "")
     laterplay = replace(cols[11], "\"" => "")
-    makeup = nothing
+    makeupdate = nothing
     try
         makeup = Date(replace(cols[12], "\"" => ""), "yyyymmdd")
+        makeupdate = makeup < Date(1877,4,1) ? nothing : makeup
     catch
         # Leave makeup as nothing
     end
+    #
     ScheduledGame(gamedate, gamenum,
     visitingteam, visitorsleague, visitorsgamenum,
     hometeam, homeleague, homegamenum,
     gametime, 
-    laterplay, makeup
+    laterplay, 
+    makeupdate
     )
 
 end

@@ -16,7 +16,7 @@ end
 # ╔═╡ f8321024-a80b-11eb-1a2e-55f03724ef5c
 begin
 	using Pkg
-	Pkg.add(url="https://github.com/neelsmith/retrosheet.jl")
+	Pkg.add(url="https://github.com/neelsmith/retrosheet.jl", rev="e6f6be06ef29194b409a788425d03fa6d2c678cc")
 
 	Pkg.add("PlutoUI")
 	Pkg.add("Markdown")
@@ -42,6 +42,25 @@ md"""## 1. Choose a game
 - Choose a specific date to see a game.
 
 """
+
+# ╔═╡ e40a2b75-c5d3-4f97-94f6-aa3d9c1384ae
+md"Try 50% splits in html"
+
+# ╔═╡ f328b2cb-ee15-4c25-863b-2a1c11012c0b
+lineupdisplay = begin
+	rawhtml = """<table>
+	<tr><th>Home</th><th>Visitor</th></tr>
+	<tr><td>
+	<ol>
+	<li>1</li>
+	<li>2</li>
+	</ol>
+	</td>
+	
+	<td></td></tr>
+	"""
+	HTML(rawhtml)
+end
 
 # ╔═╡ 85a6696b-a41f-47b4-99dd-d5aa558f832a
 md"""
@@ -266,6 +285,11 @@ begin
 	end
 end
 
+# ╔═╡ 32e4170e-512e-44c9-ace0-5c7126992bff
+homelineup = begin
+	Retrosheet.homelineup(gamercrd)
+end
+
 # ╔═╡ 67e3a9ec-fbc2-47cb-ad97-7e156b3bf0d3
 md"""## 2. Replay the game
 
@@ -402,8 +426,11 @@ pluto-output blockquote span.away {
 # ╟─a30cb2e4-7da0-4c62-b380-a9ca04fa77a6
 # ╟─c72efb28-30b8-4292-b1aa-9f6542afc7e0
 # ╟─a59e92c8-c7ab-4c70-b8b7-b82e8e9adc15
+# ╟─e40a2b75-c5d3-4f97-94f6-aa3d9c1384ae
+# ╠═f328b2cb-ee15-4c25-863b-2a1c11012c0b
 # ╟─85a6696b-a41f-47b4-99dd-d5aa558f832a
 # ╟─666a429c-86db-4505-92e0-e04ef296c814
+# ╠═32e4170e-512e-44c9-ace0-5c7126992bff
 # ╟─a8093195-6361-41f3-827f-b2051f3f1ba9
 # ╟─265ce09e-6fd3-418a-acc7-c6bd5631669e
 # ╟─69bfde19-3c66-4410-9864-d747829b5299

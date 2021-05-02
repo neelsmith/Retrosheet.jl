@@ -4,10 +4,10 @@ using Documenter, DocStringExtensions
 using Dates
 using HTTP
 
-export PlayEvent, ScheduledGame
-export GameState
+export ScheduledGame
+export GameState, GameInfo, PlayEvent
 export season, gameid
-export gamerecord, plays
+export gamerecord, gameinfo, lineup, plays
 export labelplay
 
 
