@@ -1,7 +1,7 @@
 name = "Retrosheet"
 uuid = "c739b1be-4162-4ae4-b32d-1e6905ec263e"
 authors = ["Neel Smith <dnsmith.neel@gmail.com>"]
-version = "0.0.1"
+version = "0.0.2"
 
 [deps]
 CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
