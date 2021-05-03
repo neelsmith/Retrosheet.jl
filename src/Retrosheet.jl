@@ -15,7 +15,7 @@ export PlayEvent
 export scores
 
 export GameState
-export gamestate
+export gamestate, updatestate
 
 
 include("PlayEvent.jl")

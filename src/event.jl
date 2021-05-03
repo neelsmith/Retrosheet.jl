@@ -91,7 +91,11 @@ $(SIGNATURES)
 function outs(plevt::PlayEvent)
     if occursin(plevt.play[1], "SDTHNW")
         0
+    elseif occursin("TP", plevt.play )
+        3
+    elseif occursin("DP", plevt.play )
+        2
     else
-        println(plevt.play)
+        1
     end
 end
