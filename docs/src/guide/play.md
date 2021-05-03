@@ -14,14 +14,22 @@ Create an initial gamestate
 gs = openingday |> gamestate
 ```
 
+Here's the intial state of the game
+
+```@example play
+gs |> Retrosheet.showstate
+```
+
+
 Collect the play-by-play events
 
 ```@example play
-evts = opener |> plays
+evts = openingday |> plays
 ```
 
 Update the game state play by play
 
 ```@example play
 gs = updatestate(gs, evts[1])
+gs |> Retrosheet.showstate
 ```
