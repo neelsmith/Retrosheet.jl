@@ -19,3 +19,9 @@ Collect the play-by-play events
 ```@example play
 evts = opener |> plays
 ```
+
+Update the game state play by play
+
+```@example play
+gs = updatestate(gs, evts[1])
+```
