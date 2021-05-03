@@ -50,10 +50,13 @@ $(SIGNATURES)
 """
 function scores(playevt::PlayEvent)
     parts = split(playevt.play, ".")
+    println(parts)
     if length(parts) > 1
         scores = replace( parts[2], r"[^H]" => "")
         length(scores)
-    else
+    elseif startswith(parts[1], "HR")
+        1
+    else 
         0
     end
 end

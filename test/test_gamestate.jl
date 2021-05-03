@@ -16,5 +16,5 @@
     @test length(gs.homelineup) == 9
     @test length(gs.visitorlineup) == 9
     
-    @test gs.lastplay == "Game ready to begin."
+    @test gs.lastplay == "game ready to begin."
 end

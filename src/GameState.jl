@@ -60,7 +60,7 @@ function gamestate(gamerecord)
         1, Retrosheet.TOP,0,
         allbatters[1].id,
         nothing, nothing, nothing, 
-        "Game ready to begin.")
+        "game ready to begin")
 end
 
 function inninglabel(gs)
@@ -81,7 +81,7 @@ function atplate(gs)
 end
 
 function updaterunners(gs,evt)
-    # CHECK FOR SB
+    # CHECK FOR SB, other events
     oldrunners = [gs.runner1, gs.runner2, gs.runner3]
     if evt.play[1] == 'S'
         gs.runner1 = evt.player
@@ -103,6 +103,11 @@ function updaterunners(gs,evt)
     gs
 end
 
+
+function updateplay(gs, play)
+    gs.lastplay = labelplay(play.play)
+    gs
+end
 """Update state of game to account for `play`.
 
 $(SIGNATURES)
@@ -113,10 +118,11 @@ function updatestate(gamestate::GameState, play::PlayEvent)
     else
 
         if gamestate.outs == 3
+            @info "Resetting outs and base runners: after 3 outs."
             gamestate.outs = 0
-            runners1 = nothing
-            runners2 = nothing
-            runners3 = nothing
+            gamestate.runner1 = nothing
+            gamestate.runner2 = nothing
+            gamestate.runner3 = nothing
             gamestate.half = gamestate.half == Retrosheet.TOP ? Retrosheet.BOTTOM : Retrosheet.TOP
             @info string(inninglabel(gamestate), outslabel(gamestate))
         end
@@ -136,15 +142,22 @@ function updatestate(gamestate::GameState, play::PlayEvent)
         # update outs
         gamestate.outs += outs(play)
 
-
-        # check runners
+        # update runners
         gamestate = updaterunners(gamestate, play)
+
+        # Update last play
+        gamestate = updateplay(gamestate, play)
         # check play description
         @info showstate(gamestate)
         gamestate
     end
 end
 
+
+"""Compose labels with full names for baserunners identified by player code.
+
+$(SIGNATURES)
+"""
 function runnerslabel(gs)
     labels = []
     runners = [gs.runner1, gs.runner2, gs.runner3]
@@ -161,11 +174,33 @@ end
 function showstate(gs)
     descriptions = [scorelabel(gs),inninglabel(gs),outslabel(gs)]
     push!(descriptions, string(atplate(gs), " at bat"))
-
+    push!(descriptions, gs.lastplay)
     runners = runnerslabel(gs)
     if ! isempty(runners)
         push!(descriptions, runners)
     end
     
     join(descriptions, ", ") * "."
+end
+
+
+function inningxcript(gs, eventlist, inning::Int64)
+    inningevts = filter(evt -> evt.inning == inning, eventlist)
+    descriptions = []
+    for evt in inningevts
+        gs = updatestate(gs, evt)
+        push!(descriptions, showstate(gs))
+    end
+    descriptions
+end
+
+function printinning(gs, eventlist, inning::Int64)
+    # Play previous innings to set state:
+    for ing in 1:(inning - 1)
+        playit = inningxcript(gs, eventlist, ing)
+    end
+    xcript = inningxcript(gs, eventlist, inning)
+    println("\n\n")
+    println("INNING ", inning, "\n")
+    println(join(xcript,"\n"))
 end

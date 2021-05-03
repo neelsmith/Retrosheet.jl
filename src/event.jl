@@ -61,7 +61,11 @@ function labelout(s)
     # K
     # pure numeric sequence
     # 
-    string("OUT! ", s)
+    if startswith(s,"K")
+        "strikeout"
+    else
+        string("out, ", s)
+    end
 end
 
 
@@ -95,13 +99,14 @@ end
 $(SIGNATURES)
 """
 function outs(plevt::PlayEvent)
-    if occursin(plevt.play[1], "SDTHNW")
-        0
-    elseif occursin("TP", plevt.play )
-        3
+    total = 0
+    if occursin("TP", plevt.play )
+        total = 3
     elseif occursin("DP", plevt.play )
-        2
+        total += 2
     else
-        1
+        total += 1
     end
+    outonbases = replace(plevt.play, r"[^X]" => "")
+    total += length(outonbases)
 end
