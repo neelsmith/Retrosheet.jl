@@ -1,5 +1,6 @@
 # Retrosheet.jl
 
-Build docs: `julia --project=docs/ docs/make.jl`
+Build and serve docs from repository root:
 
-Serve docs: `julia -e 'using LiveServer; serve(dir="docs/build")'julia -e 'using LiveServer; serve(dir="docs/build")'`
+- build: `julia --project=docs/ docs/make.jl`
+- serve: `julia -e 'using LiveServer; serve(dir="docs/build")'julia -e 'using LiveServer; serve(dir="docs/build")'`
