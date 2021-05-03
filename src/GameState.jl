@@ -29,8 +29,23 @@ mutable struct GameState
     lastplay::AbstractString
 end
 
+function offensiveplayer(playercode, gs)
+    batters = gs.half == BOTTOM ? gs.homelineup : gs.visitorlineup
+    matches = filter(pl -> pl.id == playercode, batters)
+    if isempty(matches)
+        @warn "No offensive player found for " * playercode
+        playercode
+    else
+        matches[1].player
+    end
+end
 
 
+function defensiveplayer(playercode, gs)
+    batters = gs.half == BOTTOM ? gs.visitorlineup : gs.homelineup
+    matches = filter(pl.id == playercode, batters)
+    matches[1]
+end
 
 """Instantiate a `GameState` from the retrosheet record for a played game.
 
@@ -60,6 +75,34 @@ function scorelabel(gs)
     string(gs.scorehome,"-",gs.scorevisitor)
 end
 
+
+function atplate(gs)
+    offensiveplayer(gs.batter, gs)
+end
+
+function updaterunners(gs,evt)
+    # CHECK FOR SB
+    oldrunners = [gs.runner1, gs.runner2, gs.runner3]
+    if evt.play[1] == 'S'
+        gs.runner1 = evt.player
+    elseif evt.play[1] == 'D'
+        gs.runner2 = evt.player
+    elseif evt.play[1] == 'T'
+        gs.runner3 = evt.player
+    end
+    
+
+    parts = split(evt.play, ".")
+    if length(parts) == 1
+        gs
+    else
+        playparts = split(parts[2], "/")
+        println("HERE ARE PLAY PARTS ",playparts)
+    end
+    println(parts[1])
+    gs
+end
+
 """Update state of game to account for `play`.
 
 $(SIGNATURES)
@@ -71,8 +114,11 @@ function updatestate(gamestate::GameState, play::PlayEvent)
 
         if gamestate.outs == 3
             gamestate.outs = 0
+            runners1 = nothing
+            runners2 = nothing
+            runners3 = nothing
             gamestate.half = gamestate.half == Retrosheet.TOP ? Retrosheet.BOTTOM : Retrosheet.TOP
-            println(inninglabel(gamestate), outslabel(gamestate))
+            @info string(inninglabel(gamestate), outslabel(gamestate))
         end
         
 
@@ -92,17 +138,34 @@ function updatestate(gamestate::GameState, play::PlayEvent)
 
 
         # check runners
+        gamestate = updaterunners(gamestate, play)
         # check play description
         @info showstate(gamestate)
         gamestate
     end
 end
 
-function showstate(gs)
-    description = join(
-        [scorelabel(gs),
-        inninglabel(gs),
-        outslabel(gs)], ", "
-    )
+function runnerslabel(gs)
+    labels = []
+    runners = [gs.runner1, gs.runner2, gs.runner3]
+    bases = ["first", "second", "third"]
+    for i in 1:3
+        r = runners[i]
+        if ! isnothing(r)
+            push!(labels, offensiveplayer(r, gs) * " now on " * bases[i]) 
+        end
+    end
+    join(labels, ", ")
+end
 
+function showstate(gs)
+    descriptions = [scorelabel(gs),inninglabel(gs),outslabel(gs)]
+    push!(descriptions, string(atplate(gs), " at bat"))
+
+    runners = runnerslabel(gs)
+    if ! isempty(runners)
+        push!(descriptions, runners)
+    end
+    
+    join(descriptions, ", ") * "."
 end

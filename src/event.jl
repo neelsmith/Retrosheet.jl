@@ -84,6 +84,12 @@ function labelbasic(s::AbstractString)
     end
 end
 
+
+function itsahit(s)
+    occursin(s[1], "SDTH")
+end
+
+
 """Compute number of outs in a play.
 
 $(SIGNATURES)
