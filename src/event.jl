@@ -107,6 +107,7 @@ function outs(plevt::PlayEvent)
     else
         total += 1
     end
+    # MODIFY THIS TO CHECK FOR ERRORS!
     outonbases = replace(plevt.play, r"[^X]" => "")
     total += length(outonbases)
 end

@@ -29,7 +29,12 @@ mutable struct GameState
     lastplay::AbstractString
 end
 
-function offensiveplayer(playercode, gs)
+
+"""Look up full name of player in lineup of team currently  at bat.
+
+$(SIGNATURES)
+"""
+function offensiveplayer(playercode::AbstractString, gs::GameState)
     batters = gs.half == BOTTOM ? gs.homelineup : gs.visitorlineup
     matches = filter(pl -> pl.id == playercode, batters)
     if isempty(matches)
@@ -40,8 +45,11 @@ function offensiveplayer(playercode, gs)
     end
 end
 
+"""Look up full name of player in lineup of team currently in the field.
 
-function defensiveplayer(playercode, gs)
+$(SIGNATURES)
+"""
+function defensiveplayer(playercode::AbstractString, gs::GameState)
     batters = gs.half == BOTTOM ? gs.visitorlineup : gs.homelineup
     matches = filter(pl.id == playercode, batters)
     matches[1]
@@ -63,24 +71,45 @@ function gamestate(gamerecord)
         "game ready to begin")
 end
 
-function inninglabel(gs)
+"""Compose label for current half inning.
+
+$(SIGNATURES)
+"""
+function inninglabel(gs::GameState)
     gs.half == Retrosheet.TOP ? string("top of the ", ordinallabel(gs.inning)) : string("bottom of the ", ordinallabel(gs.inning))
 end
 
+"""Compose label for current number of outs.
+
+$(SIGNATURES)
+"""
 function outslabel(gs)
     gs.outs == 1 ? "1 out" : string(gs.outs, " outs")
 end
 
+
+"""Compose label for current score.
+
+$(SIGNATURES)
+"""
 function scorelabel(gs)
     string(gs.scorehome,"-",gs.scorevisitor)
 end
 
+"""Compose label for current batter.
 
+$(SIGNATURES)
+"""
 function atplate(gs)
     offensiveplayer(gs.batter, gs)
 end
 
-function updaterunners(gs,evt)
+"""Update state of base runners based on specified event.
+
+$(SIGNATURES)
+Returns modified `GameState`.
+"""
+function updaterunners!(gs::GameState,evt::PlayEvent)
     # CHECK FOR SB, other events
     oldrunners = [gs.runner1, gs.runner2, gs.runner3]
     if evt.play[1] == 'S'
@@ -90,7 +119,6 @@ function updaterunners(gs,evt)
     elseif evt.play[1] == 'T'
         gs.runner3 = evt.player
     end
-    
 
     parts = split(evt.play, ".")
     if length(parts) == 1
@@ -104,15 +132,22 @@ function updaterunners(gs,evt)
 end
 
 
-function updateplay(gs, play)
+"""Update description of most recent play for specified event.
+
+$(SIGNATURES)
+Returns modified `GameState`.
+"""
+function updateplay!(gs, play)
     gs.lastplay = labelplay(play.play)
     gs
 end
+
+
 """Update state of game to account for `play`.
 
 $(SIGNATURES)
 """
-function updatestate(gamestate::GameState, play::PlayEvent)
+function updatestate!(gamestate::GameState, play::PlayEvent)
     if isnothing(play)
         gamestate
     else
@@ -143,10 +178,10 @@ function updatestate(gamestate::GameState, play::PlayEvent)
         gamestate.outs += outs(play)
 
         # update runners
-        gamestate = updaterunners(gamestate, play)
+        gamestate = updaterunners!(gamestate, play)
 
         # Update last play
-        gamestate = updateplay(gamestate, play)
+        gamestate = updateplay!(gamestate, play)
         # check play description
         @info showstate(gamestate)
         gamestate
@@ -158,7 +193,7 @@ end
 
 $(SIGNATURES)
 """
-function runnerslabel(gs)
+function runnerslabel(gs::GameState)
     labels = []
     runners = [gs.runner1, gs.runner2, gs.runner3]
     bases = ["first", "second", "third"]
@@ -171,7 +206,11 @@ function runnerslabel(gs)
     join(labels, ", ")
 end
 
-function showstate(gs)
+"""Compose text description of current game state.
+
+$(SIGNATURES)
+"""
+function showstate(gs::GameState)
     descriptions = [scorelabel(gs),inninglabel(gs),outslabel(gs)]
     push!(descriptions, string(atplate(gs), " at bat"))
     push!(descriptions, gs.lastplay)
@@ -184,15 +223,31 @@ function showstate(gs)
 end
 
 
-function inningxcript(gs, eventlist, inning::Int64)
+"""Collect text description of all plays in a given inning.
+
+$(SIGNATURES)
+
+Note that it's necessary to play through the game up to the requested inning
+before collecting the transcription for the requested inning.
+
+
+# Arguments
+
+- `gs` Game state.
+- `eventlist` List of play events for this game.
+- `inning` Inning to transcribe
+"""
+function inningxcript(gs::GameState, eventlist, inning::Int64)
     inningevts = filter(evt -> evt.inning == inning, eventlist)
     descriptions = []
     for evt in inningevts
-        gs = updatestate(gs, evt)
+        gs = updatestate!(gs, evt)
         push!(descriptions, showstate(gs))
     end
     descriptions
 end
+
+
 
 function printinning(gs, eventlist, inning::Int64)
     # Play previous innings to set state:
